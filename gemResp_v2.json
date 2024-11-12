@@ -1,0 +1,190 @@
+{
+  "topic": "Michelangelo: A Comprehensive Study",
+  "sections": [
+    {
+      "id": "1",
+      "title": "Early Life and Influences",
+      "children": [
+        {
+          "id": "1.1",
+          "title": "Childhood and Artistic Beginnings",
+          "children": [
+            { "id": "1.1.1", "title": "Early Education and Influences" },
+            { "id": "1.1.2", "title": "First Artistic Encounters" }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "The Florentine Renaissance",
+          "children": [
+            { "id": "1.2.1", "title": "The Medici Family and Patronage" },
+            { "id": "1.2.2", "title": "Early Masterpieces and Recognition" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Sculptural Masterpieces",
+      "children": [
+        {
+          "id": "2.1",
+          "title": "David: A Symbol of Renaissance Idealism",
+          "children": [
+            { "id": "2.1.1", "title": "The Commission and Creation" },
+            { "id": "2.1.2", "title": "Artistic Innovation and Impact" }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "The Pietà: Emotional Intensity and Expression",
+          "children": [
+            { "id": "2.2.1", "title": "The Commission and Symbolism" },
+            {
+              "id": "2.2.2",
+              "title": "Technical Mastery and Emotional Resonance"
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "Exploring Other Sculptural Works",
+          "children": [
+            { "id": "2.3.1", "title": "The Tomb of Julius II" },
+            { "id": "2.3.2", "title": "The Bound Slave" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "The Sistine Chapel Ceiling",
+      "children": [
+        {
+          "id": "3.1",
+          "title": "The Commission and Preparation",
+          "children": [
+            { "id": "3.1.1", "title": "The Papal Patronage" },
+            { "id": "3.1.2", "title": "The Challenge and the Vision" }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "The Iconography and Narrative",
+          "children": [
+            { "id": "3.2.1", "title": "The Creation of Adam" },
+            { "id": "3.2.2", "title": "The Last Judgment" }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Artistic Techniques and Impact",
+          "children": [
+            { "id": "3.3.1", "title": "Fresco Painting and Innovation" },
+            { "id": "3.3.2", "title": "Influence on Western Art" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Michelangelo's Architecture",
+      "children": [
+        {
+          "id": "4.1",
+          "title": "The Campidoglio: A New Urban Vision",
+          "children": [
+            { "id": "4.1.1", "title": "The Project and Design" },
+            { "id": "4.1.2", "title": "Influences and Legacy" }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "The Basilica of St. Peter's: A Monumental Masterpiece",
+          "children": [
+            { "id": "4.2.1", "title": "The Commission and Challenges" },
+            { "id": "4.2.2", "title": "Michelangelo's Vision and Legacy" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Michelangelo's Later Years",
+      "children": [
+        {
+          "id": "5.1",
+          "title": "The Florence Pietà: A Late Masterpiece",
+          "children": [
+            { "id": "5.1.1", "title": "The Commission and Creation" },
+            { "id": "5.1.2", "title": "Artistic Significance and Symbolism" }
+          ]
+        },
+        {
+          "id": "5.2",
+          "title": "Legacy and Impact",
+          "children": [
+            {
+              "id": "5.2.1",
+              "title": "Michelangelo's Influence on Art and Culture"
+            },
+            { "id": "5.2.2", "title": "Continuing Relevance and Appreciation" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Michelangelo and the Human Form",
+      "children": [
+        {
+          "id": "6.1",
+          "title": "Anatomical Studies and Mastery",
+          "children": [
+            {
+              "id": "6.1.1",
+              "title": "Dissecting the Body and Artistic Understanding"
+            },
+            { "id": "6.1.2", "title": "Impact on Artistic Representations" }
+          ]
+        },
+        {
+          "id": "6.2",
+          "title": "Expression and Emotion",
+          "children": [
+            {
+              "id": "6.2.1",
+              "title": "Communicating Human Experience through Art"
+            },
+            {
+              "id": "6.2.2",
+              "title": "Michelangelo's Unique Style and Emotional Depth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Michelangelo's Poetry",
+      "children": [
+        {
+          "id": "7.1",
+          "title": "Themes and Motifs",
+          "children": [
+            { "id": "7.1.1", "title": "Love, Loss, and Spirituality" },
+            { "id": "7.1.2", "title": "The Artist's Struggle and Inspiration" }
+          ]
+        },
+        {
+          "id": "7.2",
+          "title": "Style and Influence",
+          "children": [
+            { "id": "7.2.1", "title": "Michelangelo's Poetic Voice" },
+            { "id": "7.2.2", "title": "Relationship to His Visual Art" }
+          ]
+        }
+      ]
+    }
+  ]
+}

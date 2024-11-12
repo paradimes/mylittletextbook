@@ -1,13 +1,13 @@
 "use client";
 
+import { TopicResponse } from "@/app/page";
 import { useState } from "react";
 
-export default function SearchForm({
-  onResults,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onResults: (data: any) => void;
-}) {
+interface SearchFormProps {
+  onResults: (data: TopicResponse) => void;
+}
+
+export default function SearchForm({ onResults }: SearchFormProps) {
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,40 +25,63 @@ export default function SearchForm({
       });
 
       const data = await response.json();
+      // console.log("data", data);
 
-      if (data.data) {
-        onResults(data.data);
+      if (data.content) {
+        // onResults(data.content);
+        onResults(data);
       } else {
         setError("Unable to get topic info");
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      setError("An error occurred");
+      setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md">
-      <div className="flex gap-2">
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          placeholder="Enter a topic..."
-          className="flex-1 rounded-md border p-2"
+          placeholder="Enter a topic (e.g., 'Ancient Rome', 'Machine Learning', 'Photography')"
+          className="flex-1 rounded-md border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:text-black"
           required
         />
         <button
           type="submit"
           disabled={loading}
-          className="rounded-md bg-blue-500 px-4 py-2 text-white disabled:opacity-50"
+          className="rounded-md bg-blue-500 px-6 py-3 text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto"
         >
-          {loading ? "Generating..." : "Generate"}
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+              Generating...
+            </span>
+          ) : (
+            "Generate Table of Contents"
+          )}{" "}
         </button>
       </div>
-      {error && <p className="mt-2 text-red-500">{error}</p>}
+      {error && <p className="mt-2 text-red-500 text-sm">{error}</p>}
     </form>
   );
 }

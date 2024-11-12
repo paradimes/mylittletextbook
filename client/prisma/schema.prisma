@@ -14,8 +14,23 @@ model Topic {
   id        String   @id @default(cuid())
   name      String
   content   Json
+  sections  Section[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([name])
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  topicId   String
+  number    String
+  title     String
+  content   String? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  topic     Topic    @relation(fields: [topicId], references: [id])
+
+  @@index([topicId])
+  @@index([number])
 }
