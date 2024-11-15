@@ -5,9 +5,13 @@ import { useState } from "react";
 
 interface SearchFormProps {
   onResults: (data: TopicResponse) => void;
+  onSearchStart: () => void;
 }
 
-export default function SearchForm({ onResults }: SearchFormProps) {
+export default function SearchForm({
+  onResults,
+  onSearchStart,
+}: SearchFormProps) {
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,19 +20,20 @@ export default function SearchForm({ onResults }: SearchFormProps) {
     event.preventDefault();
     setError("");
     setLoading(true);
+    onSearchStart(); // Clear previous results and show loading state
 
     try {
+      const normalizedTopic = topic.trim().toLowerCase();
       const response = await fetch("/api/generate-toc", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic }),
+        body: JSON.stringify({ topic: normalizedTopic }),
       });
 
       const data = await response.json();
       // console.log("data", data);
 
       if (data.content) {
-        // onResults(data.content);
         onResults(data);
       } else {
         setError("Unable to get topic info");

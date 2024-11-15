@@ -9,10 +9,16 @@ import { TableOfContents, toPrismaJson } from "@/types";
 export async function POST(request: Request) {
   try {
     const { topic } = await request.json();
+    const normalizedTopic = topic.toLowerCase().trim();
 
-    // Check for existing topic
+    // Check for existing topic (case-insensitive)
     const existingTopic = await prisma.topic.findFirst({
-      where: { name: topic },
+      where: {
+        name: {
+          equals: normalizedTopic,
+          mode: "insensitive",
+        },
+      },
     });
 
     if (existingTopic) {

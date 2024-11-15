@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { SectionContent } from "./SectionContent";
 import { Section, TableOfContents as TOC } from "@/types";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface SectionState {
   [key: string]: {
@@ -18,11 +19,13 @@ interface SectionState {
 interface TableOfContentsProps {
   topicId: string;
   content: TOC;
+  isLoading?: boolean;
 }
 
 export default function TableOfContents({
   topicId,
   content,
+  isLoading = false,
 }: TableOfContentsProps) {
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [sectionStates, setSectionStates] = useState<SectionState>({});
@@ -31,7 +34,12 @@ export default function TableOfContents({
   const sectionContentRef = useRef<HTMLDivElement>(null);
   const tocRef = useRef<HTMLDivElement>(null);
 
-  // Add an effect to handle scrolling after content is rendered
+  // Reset selected section whe topic changes
+  useEffect(() => {
+    setSelectedSection(null);
+  }, [topicId]);
+
+  // Effect for scrolling behavior
   useEffect(() => {
     if (shouldScroll && sectionContentRef.current) {
       // Small delay to ensure content is rendered
@@ -44,8 +52,11 @@ export default function TableOfContents({
     }
   }, [shouldScroll, selectedSection]);
 
+  // Fetch section states
   useEffect(() => {
     const fetchSectionStates = async () => {
+      if (!topicId) return;
+
       try {
         const response = await fetch(`/api/sections-status/${topicId}`);
         const data = await response.json();
@@ -183,6 +194,10 @@ export default function TableOfContents({
   const handleBackToTop = () => {
     tocRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="mt-8 grid grid-cols-1 gap-8">

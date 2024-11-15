@@ -15,13 +15,21 @@ export interface TopicResponse {
 
 export default function Home() {
   const [topic, setTopic] = useState<TopicResponse | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoadingToc, setIsLoadingToc] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // console.log("topic: TopicResponse", topic);
 
+  const handleSearchStart = () => {
+    setIsLoadingToc(true);
+    // Clear current topic while loading the new one
+    setTopic(null);
+    setError(null);
+  };
+
   const handleTopicGeneration = async (data: TopicResponse) => {
     setTopic(data);
+    setIsLoadingToc(false);
   };
 
   return (
@@ -33,7 +41,10 @@ export default function Home() {
           subject to get started.
         </p>
 
-        <SearchForm onResults={handleTopicGeneration} />
+        <SearchForm
+          onResults={handleTopicGeneration}
+          onSearchStart={handleSearchStart}
+        />
 
         {error && (
           <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
@@ -41,18 +52,32 @@ export default function Home() {
           </div>
         )}
 
-        {topic && (
+        {(isLoadingToc || topic) && (
           <div className="mt-8">
-            <div className="mb-6">
-              <h2 className="text-2xl font-semibold text-gray-800">
-                {topic.name}
-              </h2>
-              <p className="text-gray-600 mt-2">
-                Select sections below to generate detailed content.
-              </p>
-            </div>
+            {topic && !isLoadingToc && (
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {topic.name}
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  Select sections below to generate detailed content.
+                </p>
+              </div>
+            )}
 
-            <TableOfContents topicId={topic.id} content={topic.content} />
+            {topic ? (
+              <TableOfContents
+                topicId={topic.id}
+                content={topic.content}
+                isLoading={isLoadingToc}
+              />
+            ) : (
+              <TableOfContents
+                topicId=""
+                content={{ topic: "", sections: [] }}
+                isLoading={true}
+              />
+            )}
           </div>
         )}
       </div>
