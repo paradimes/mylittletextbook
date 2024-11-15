@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SectionContent } from "./SectionContent";
 import { Section, TableOfContents as TOC } from "@/types";
@@ -10,6 +10,7 @@ import { Section, TableOfContents as TOC } from "@/types";
 interface SectionState {
   [key: string]: {
     isGenerating: boolean;
+    isFetching: boolean;
     hasContent: boolean;
   };
 }
@@ -26,6 +27,22 @@ export default function TableOfContents({
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [sectionStates, setSectionStates] = useState<SectionState>({});
   const [error, setError] = useState<string | null>(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
+  const sectionContentRef = useRef<HTMLDivElement>(null);
+  const tocRef = useRef<HTMLDivElement>(null);
+
+  // Add an effect to handle scrolling after content is rendered
+  useEffect(() => {
+    if (shouldScroll && sectionContentRef.current) {
+      // Small delay to ensure content is rendered
+      const timeoutId = setTimeout(() => {
+        sectionContentRef.current?.scrollIntoView({ behavior: "smooth" });
+        setShouldScroll(false);
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [shouldScroll, selectedSection]);
 
   useEffect(() => {
     const fetchSectionStates = async () => {
@@ -39,6 +56,7 @@ export default function TableOfContents({
           (section: { number: string; hasContent: boolean }) => {
             states[section.number] = {
               isGenerating: false,
+              isFetching: false,
               hasContent: section.hasContent,
             };
           }
@@ -79,11 +97,16 @@ export default function TableOfContents({
 
       const data = await response.json();
       setSelectedSection({ ...section, content: data.content });
+      setShouldScroll(true); // Trigger scroll after content is set
 
       // Update section state to show it now has content
       setSectionStates((prev) => ({
         ...prev,
-        [section.id]: { isGenerating: false, hasContent: true },
+        [section.id]: {
+          isGenerating: false,
+          isFetching: false,
+          hasContent: true,
+        },
       }));
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -100,13 +123,27 @@ export default function TableOfContents({
     if (state?.hasContent) {
       // If content exists, fetch and display it
       try {
+        // Fetching
+        setSectionStates((prev) => ({
+          ...prev,
+          [section.id]: { ...prev[section.id], isFetching: true },
+        }));
+
         const response = await fetch(
           `/api/section-content/${topicId}/${section.id}`
         );
         const data = await response.json();
         setSelectedSection({ ...section, content: data.content });
+        // Scroll to the section content
+        // sectionContentRef.current?.scrollIntoView({ behavior: "smooth" });
+        setShouldScroll(true); // Trigger scroll after content is set
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load content");
+      } finally {
+        setSectionStates((prev) => ({
+          ...prev,
+          [section.id]: { ...prev[section.id], isFetching: false },
+        }));
       }
     } else {
       // If no content exists, generate it
@@ -123,10 +160,16 @@ export default function TableOfContents({
           <button
             onClick={() => handleSectionClick(section)}
             disabled={sectionStates[section.id]?.isGenerating}
-            className="rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600 disabled:opacity-50"
+            className={`rounded-md  px-3 py-1 text-sm text-white  disabled:opacity-50 ${
+              sectionStates[section.id]?.hasContent
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
             {sectionStates[section.id]?.isGenerating
               ? "Generating..."
+              : sectionStates[section.id]?.isFetching
+              ? "Loading..."
               : sectionStates[section.id]?.hasContent
               ? "Open"
               : "Generate"}
@@ -137,9 +180,16 @@ export default function TableOfContents({
     </div>
   );
 
+  const handleBackToTop = () => {
+    tocRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="mt-8 grid grid-cols-1 gap-8">
-      <div className="rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div
+        ref={tocRef}
+        className="rounded-lg border border-gray-200 p-6 shadow-sm"
+      >
         <h2 className="mb-4 text-xl font-semibold">{content.topic}</h2>
         <div className="space-y-2">
           {content.sections.map((section) => renderSection(section))}
@@ -148,11 +198,20 @@ export default function TableOfContents({
       </div>
 
       {selectedSection?.content && (
-        <div className="rounded-lg border border-gray-200 p-6 shadow-sm bg-neutral-200">
+        <div
+          ref={sectionContentRef}
+          className="rounded-lg border border-gray-200 p-6 shadow-sm bg-neutral-200"
+        >
           <h2 className="mb-4 text-xl font-semibold text-black">
             {selectedSection.id} {selectedSection.title}
           </h2>
           <SectionContent content={selectedSection.content} />
+          <button
+            onClick={handleBackToTop}
+            className="my-4 rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+          >
+            Back to Top
+          </button>
         </div>
       )}
     </div>
