@@ -164,7 +164,7 @@ export default function TableOfContents({
 
   const renderSection = (section: Section, depth: number = 0) => (
     <div key={section.id} className={`pl-${depth * 4} py-1`}>
-      <div className="flex items-center gap-2 hover:bg-neutral-300 rounded-md">
+      <div className="flex items-center gap-2 hover:bg-neutral-300 dark:hover:bg-neutral-700 rounded-md">
         <span className="text-sm font-medium text-gray-500">{section.id}</span>
         <span className="flex-1">{section.title}</span>
         {!section.children?.length && (
@@ -173,8 +173,8 @@ export default function TableOfContents({
             disabled={sectionStates[section.id]?.isGenerating}
             className={`rounded-md  px-3 py-1 text-sm text-white  disabled:opacity-50 ${
               sectionStates[section.id]?.hasContent
-                ? "bg-green-500 hover:bg-green-600"
-                : "bg-blue-500 hover:bg-blue-600"
+                ? "bg-yellow-500 hover:bg-yellow-600"
+                : "bg-emerald-600 hover:bg-emerald-700"
             }`}
           >
             {sectionStates[section.id]?.isGenerating
@@ -215,15 +215,15 @@ export default function TableOfContents({
       {selectedSection?.content && (
         <div
           ref={sectionContentRef}
-          className="rounded-lg border border-gray-200 p-6 shadow-sm bg-neutral-200"
+          className="rounded-lg border border-gray-200 p-6 shadow-sm"
         >
-          <h2 className="mb-4 text-xl font-semibold text-black">
+          <h2 className="mb-4 text-xl font-semibold text-black dark:text-neutral-300">
             {selectedSection.id} {selectedSection.title}
           </h2>
           <SectionContent content={selectedSection.content} />
           <button
             onClick={handleBackToTop}
-            className="my-4 rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+            className="my-4 rounded-md bg-neutral-500 px-3 py-1 text-sm text-white hover:bg-neutral-600 font-bold"
           >
             Back to Top
           </button>

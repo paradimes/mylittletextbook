@@ -59,7 +59,7 @@ export default function SearchForm({
         <button
           type="submit"
           disabled={loading}
-          className="rounded-md bg-blue-500 px-6 py-3 text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto"
+          className="rounded-md bg-emerald-500 px-6 py-3 text-white shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto"
         >
           {loading ? (
             <span className="flex items-center gap-2">

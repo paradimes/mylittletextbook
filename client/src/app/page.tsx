@@ -6,6 +6,7 @@ import { useState } from "react";
 import SearchForm from "@/components/SearchForm";
 import TableOfContents from "@/components/TableOfContents";
 import { TableOfContents as TOC } from "@/types";
+import Header from "@/components/Header";
 
 export interface TopicResponse {
   id: string;
@@ -33,54 +34,58 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="mb-8 text-3xl font-bold">MyLittleTextbook</h1>
-        <p className="mb-8 text-gray-600">
-          Generate comprehensive learning materials for any topic. Enter a
-          subject to get started.
-        </p>
+    <>
+      <Header />
 
-        <SearchForm
-          onResults={handleTopicGeneration}
-          onSearchStart={handleSearchStart}
-        />
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="mb-8 text-3xl font-bold">MyLittleTextbook</h1>
+          <p className="mb-8 text-neutral-600 dark:text-neutral-300">
+            Generate comprehensive learning materials for any topic. Enter a
+            subject to get started.
+          </p>
 
-        {error && (
-          <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
-            {error}
-          </div>
-        )}
+          <SearchForm
+            onResults={handleTopicGeneration}
+            onSearchStart={handleSearchStart}
+          />
 
-        {(isLoadingToc || topic) && (
-          <div className="mt-8">
-            {topic && !isLoadingToc && (
-              <div className="mb-6">
-                <h2 className="text-2xl font-semibold text-gray-800">
-                  {topic.name}
-                </h2>
-                <p className="text-gray-600 mt-2">
-                  Select sections below to generate detailed content.
-                </p>
-              </div>
-            )}
+          {error && (
+            <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
+              {error}
+            </div>
+          )}
 
-            {topic ? (
-              <TableOfContents
-                topicId={topic.id}
-                content={topic.content}
-                isLoading={isLoadingToc}
-              />
-            ) : (
-              <TableOfContents
-                topicId=""
-                content={{ topic: "", sections: [] }}
-                isLoading={true}
-              />
-            )}
-          </div>
-        )}
-      </div>
-    </main>
+          {(isLoadingToc || topic) && (
+            <div className="mt-8">
+              {topic && !isLoadingToc && (
+                <div className="mb-6">
+                  <h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">
+                    {topic.name}
+                  </h2>
+                  <p className="text-neutral-600 dark:text-neutral-300 mt-2">
+                    Select sections below to generate detailed content.
+                  </p>
+                </div>
+              )}
+
+              {topic ? (
+                <TableOfContents
+                  topicId={topic.id}
+                  content={topic.content}
+                  isLoading={isLoadingToc}
+                />
+              ) : (
+                <TableOfContents
+                  topicId=""
+                  content={{ topic: "", sections: [] }}
+                  isLoading={true}
+                />
+              )}
+            </div>
+          )}
+        </div>
+      </main>
+    </>
   );
 }
