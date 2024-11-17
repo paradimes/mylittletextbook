@@ -1,3 +1,5 @@
+// src/components/SearchForm.tsx
+
 "use client";
 
 import { TopicResponse } from "@/app/page";

@@ -1,3 +1,5 @@
+// src/components/Header.tsx
+
 import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
