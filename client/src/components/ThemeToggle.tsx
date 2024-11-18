@@ -5,12 +5,9 @@ import { useState, useEffect } from "react";
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
-  console.log("isDark", isDark);
-
   useEffect(() => {
     // Initialize theme based on system preference or stored value
     const savedTheme = localStorage.getItem("theme");
-    console.log("savedTheme:", savedTheme);
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
