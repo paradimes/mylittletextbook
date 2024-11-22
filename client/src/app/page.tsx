@@ -7,11 +7,16 @@ import SearchForm from "@/components/SearchForm";
 import TableOfContents from "@/components/TableOfContents";
 import { TableOfContents as TOC } from "@/types";
 import Header from "@/components/Header";
+import { signIn } from "next-auth/react";
 
 export interface TopicResponse {
   id: string;
   name: string;
   content: TOC;
+}
+
+export function SignIn() {
+  return <button onClick={() => signIn("auth0")}>Sign in</button>;
 }
 
 export default function Home() {
@@ -39,6 +44,7 @@ export default function Home() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          <SignIn />
           <h1 className="mb-8 text-3xl font-bold">MyLittleTextbook</h1>
           <p className="mb-8 text-neutral-600 dark:text-neutral-300">
             Generate comprehensive learning materials for any topic. Enter a
